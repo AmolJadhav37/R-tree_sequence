@@ -428,7 +428,6 @@ def draw_tree_panel(ax, frame, title):
         elif node.is_leaf:        name = f"{dl[node.nid]}  [leaf]"
         else:                     name = f"{dl[node.nid]}  [int]"
 
-        # MBR
         coord = (f"x:[{nm[0]},{nm[2]}]  y:[{nm[1]},{nm[3]}]" if nm else "(empty)")
 
         # content
@@ -447,18 +446,14 @@ def draw_tree_panel(ax, frame, title):
                 line3_col = '#B91C1C'
             else:
                 line3_col = '#333'
-        else:
-            a_val = area(nm) if nm else 0
-            line3 = f"{len(node.children)} children  area={a_val:.0f}"
-            line3_col = '#333'
 
         ax.text(cx, cy+0.025, name,
                 ha='center', va='center', fontsize=6.5, fontweight='bold',
                 color=stroke, zorder=10)
-        if node is not tree:
-            ax.text(cx, cy+0.001, coord,
-                ha='center', va='center', fontsize=5.6, color='#1a1a1a', zorder=10)
-            ax.text(cx, cy-0.025, line3,
+        ax.text(cx, cy+0.001, coord,
+            ha='center', va='center', fontsize=5.6, color='#1a1a1a', zorder=10)
+        if node.is_leaf:
+            ax.text(cx, cy-0.02, line3,
                 ha='center', va='center', fontsize=6.0, color=line3_col, zorder=10)
 
         if not node.is_leaf:
