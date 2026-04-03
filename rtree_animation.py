@@ -525,8 +525,8 @@ def update(fi):
     draw_tree_panel(ax_trB, fB, f"Tree B — depth={dB}  overlap={ovB:.2f} u²")
 
     seq_txt.set_text(
-        f"A (group-first):   {make_seq(ORDER_A, fi)}     overlap_A = {ovA:.2f}\n"
-        f"B (interleaved):   {make_seq(ORDER_B, fi)}     overlap_B = {ovB:.2f}"
+        f"A :   {make_seq(ORDER_A, fi)}     overlap_A = {ovA:.2f}\n"
+        f"B :   {make_seq(ORDER_B, fi)}     overlap_B = {ovB:.2f}"
     )
 
 ani = FuncAnimation(fig, update, frames=len(frames_A),
