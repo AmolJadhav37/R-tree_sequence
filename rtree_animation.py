@@ -271,6 +271,18 @@ def assign_colors(tree):
         for c in node.children: queue.append(c)
     return colors
 
+def assign_display_labels(tree, start=0):
+    labels = {}
+    queue = [tree]
+    next_id = start
+    while queue:
+        node = queue.pop(0)
+        labels[node.nid] = f"N{next_id}"
+        next_id += 1
+        for child in node.children:
+            queue.append(child)
+    return labels
+
 # ═══════════════════════════════════════════════════════════════════
 # 8. TREE LAYOUT
 # ═══════════════════════════════════════════════════════════════════
@@ -302,6 +314,7 @@ def draw_spatial(ax, frame, title):
     for sp in ax.spines.values(): sp.set_linewidth(0.4); sp.set_color('#ccc')
 
     nc = assign_colors(frame['tree'])
+    dl = assign_display_labels(frame['tree'])
 
     def collect_nodes(node, d, lst):
         lst.append((d, node))
@@ -329,7 +342,7 @@ def draw_spatial(ax, frame, title):
         ))
 
         # Node label with MBR coordinates
-        lbl = f"N{node.nid}  x:[{nm[0]},{nm[2]}] y:[{nm[1]},{nm[3]}]"
+        lbl = f"{dl[node.nid]}  x:[{nm[0]},{nm[2]}] y:[{nm[1]},{nm[3]}]"
         ax.text(nm[0]+0.12, nm[3]-0.12, lbl,
                 fontsize=5.0, color=stroke, va='top', fontweight='bold',
                 zorder=20+depth,
@@ -374,6 +387,7 @@ def draw_tree_panel(ax, frame, title):
     tdep  = tree.depth()
     pos   = layout_tree(tree, 0.04, 0.96, 0)
     nc    = assign_colors(tree)
+    dl    = assign_display_labels(tree)
 
     BW, BH = 0.155, 0.092
 
@@ -410,9 +424,9 @@ def draw_tree_panel(ax, frame, title):
         ))
 
         # name
-        if node is tree:          name = f"ROOT  N{node.nid}"
-        elif node.is_leaf:        name = f"N{node.nid}  [leaf]"
-        else:                     name = f"N{node.nid}  [int]"
+        if node is tree:          name = f"ROOT  {dl[node.nid]}"
+        elif node.is_leaf:        name = f"{dl[node.nid]}  [leaf]"
+        else:                     name = f"{dl[node.nid]}  [int]"
 
         # MBR
         coord = (f"x:[{nm[0]},{nm[2]}]  y:[{nm[1]},{nm[3]}]" if nm else "(empty)")
