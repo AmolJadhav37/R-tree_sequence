@@ -455,9 +455,10 @@ def draw_tree_panel(ax, frame, title):
         ax.text(cx, cy+0.025, name,
                 ha='center', va='center', fontsize=6.5, fontweight='bold',
                 color=stroke, zorder=10)
-        ax.text(cx, cy+0.001, coord,
+        if node is not tree:
+            ax.text(cx, cy+0.001, coord,
                 ha='center', va='center', fontsize=5.6, color='#1a1a1a', zorder=10)
-        ax.text(cx, cy-0.025, line3,
+            ax.text(cx, cy-0.025, line3,
                 ha='center', va='center', fontsize=6.0, color=line3_col, zorder=10)
 
         if not node.is_leaf:
